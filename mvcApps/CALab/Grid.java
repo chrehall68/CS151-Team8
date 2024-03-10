@@ -8,7 +8,7 @@ import java.util.function.BiConsumer;
 
 public abstract class Grid extends Model {
     static private int time = 0;
-    protected int dim = 20;
+    protected int dim;
     protected Cell[][] cells;
 
     public int getDim() {
