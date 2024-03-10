@@ -1,12 +1,13 @@
 package CALab;
 
+import mvc.Model;
+
 import java.awt.*;
-import java.util.*;
-import java.io.*;
-import mvc.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
-public abstract class Cell extends Publisher implements Serializable {
-
+public abstract class Cell extends Model {
     protected int row = 0, col = 0;
     protected Set<Cell> neighbors = new HashSet<Cell>();
     protected Grid myGrid = null;
@@ -22,32 +23,51 @@ public abstract class Cell extends Publisher implements Serializable {
 			Starting at a random position in the array search for a neighbor without a partner
 			Make the first such neighbor (if any) the partner and set its partner field to this
 			*/
-        }
+            Cell[] neighborsArray = neighbors.toArray(new Cell[0]);
+            Random random = new Random();
+            int size = neighborsArray.length;
 
+            // search for first available neighbor to partner with
+            int start = random.nextInt(size);
+            int offset = 0;
+            while (offset < size && neighborsArray[(start + offset) % size].partner != null) {
+                ++offset;
+            }
+
+            // if we've reached a neighbor without a partner, partner with them
+            if (neighborsArray[(start + offset) % size].partner == null) {
+                neighborsArray[(start + offset) % size].partner = this;
+                partner = neighborsArray[(start + offset) % size];
+            }
+        }
     }
 
     public void unpartner() {
         if (partner != null) {
-            if (partner.partner != null) {
-                partner.partner = null;
-            }
+            partner.partner = null;
             partner = null;
         }
     }
-    public Color getColor(){
-        // TODO - get some sort of color here
-        return null;
+
+    // subclasses should override this 
+    public Color getColor() {
+        return Color.green;
     }
 
     // observer neighbors' states
     public abstract void observe();
+
     // interact with a random neighbor
     public abstract void interact();
-    // update my state
+
+    // update my state, and notify any subscribers
     public abstract void update();
+
     // set status to status + 1 mod whatever
     public abstract void nextState();
+
     public abstract int getStatus();
+
     // set status to a random or initial value
     public abstract void reset(boolean randomly);
 
