@@ -5,46 +5,25 @@ import mvc.Command;
 import mvc.Model;
 import mvc.View;
 
-
-// TODO - make this class actually useful
-public class GridFactory implements AppFactory {
+public abstract class GridFactory implements AppFactory {
     @Override
-    public View makeView(Model m) {
-        return new GridView((Grid)m);
-    }
+    public abstract View makeView(Model m);
 
     @Override
-    public Model makeModel() {
-        return null;
-    }
+    public abstract Model makeModel();
 
     @Override
-    public String getTitle() {
-        return "CA Lab";
-    }
+    public abstract String getTitle();
 
     @Override
-    public String[] getHelp() {
-        return new String[]{"Click Run1 to update each cell once.", "Click Run 50 to update each cell 50 times.", "Click populate to set each cell to a random value.", "Click clear to set each cell to an initial value."};
-    }
+    public abstract String[] getHelp();
 
     @Override
-    public String about() {
-        return "CA Lab version 1.0. Copyright 2024 by Alex Ross, Eliot Hall, and Xioke Ran.";
-    }
+    public abstract String about();
 
     @Override
-    public String[] getEditCommands() {
-        return new String[]{"Run1", "Run 50", "Populate", "Clear"};
-    }
+    public abstract String[] getEditCommands();
 
     @Override
-    public Command makeEditCommand(Model model, String type, Object source) {
-
-        if (type == "run1") return new RunCommand.Run1(model);
-        else if (type == "run50") return new RunCommand.Run50(model);
-        else if (type == "clear") return new ClearCommand(model);
-        else if (type == "populate") return new PopulateCommand(model);
-        else return null;
-    }
+    public abstract Command makeEditCommand(Model model, String type, Object source);
 }

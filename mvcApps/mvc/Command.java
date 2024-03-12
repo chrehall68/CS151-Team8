@@ -9,5 +9,3 @@ public abstract class Command {
 
     public abstract void execute() throws Exception;
 }
-
-// grid panel, commands, grid factory
