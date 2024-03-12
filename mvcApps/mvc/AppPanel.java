@@ -1,13 +1,10 @@
 package mvc;
 
-import jdk.jshell.execution.Util;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AppPanel extends JPanel implements ActionListener, Subscriber {
     protected ControlPanel controls;
@@ -20,6 +17,7 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
         controls = new ControlPanel();
         model = factory.makeModel();
         view = factory.makeView(model);
+        model.subscribe(this); // just in case the control panel needs to be able to update
 
         // add sub-panels
         GridLayout layout = new GridLayout();
@@ -110,11 +108,10 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
                 }
             }
         } catch (Exception ex) {
-            if (ex instanceof NullPointerException){
+            if (ex instanceof NullPointerException) {
                 Utilities.error("Operation canceled");  // attempting to read from null file
                 ex.printStackTrace();
-            }
-            else{
+            } else {
                 Utilities.error(ex);
             }
         }
@@ -122,11 +119,12 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
 
     @Override
     public void update() {
-        controls.repaint();
+        controls.update();
     }
 
     public static class ControlPanel extends JPanel {
         private static int row = 0;
+
         public ControlPanel() {
             setLayout(new GridBagLayout());
             setBorder(new LineBorder(Color.black));
@@ -144,6 +142,11 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
             containerPanel.add(comp);
             this.add(containerPanel, constraints);
             return comp;
+        }
+
+        public void update() {
+            // customizers can override this if they need to update the
+            // Control panel's display
         }
     }
 }
