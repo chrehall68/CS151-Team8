@@ -1,98 +1,12 @@
 package CALabTests;
 
 import CALab.Cell;
-import CALab.Grid;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
-import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConcreteCell extends Cell {
-    int observeTimes = 0;
-    int interactTimes = 0;
-    int updateTimes = 0;
-
-    public ConcreteCell() {
-        super();
-    }
-
-    @Override
-    public void observe() {
-        ++observeTimes;
-    }
-
-    @Override
-    public void interact() {
-        ++interactTimes;
-    }
-
-    @Override
-    public void update() {
-        ++updateTimes;
-    }
-
-    @Override
-    public void nextState() {
-
-    }
-
-    @Override
-    public int getStatus() {
-        return 0;
-    }
-
-    @Override
-    public void reset(boolean randomly) {
-        unpartner();
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
-    }
-
-    public Set<Cell> getNeighbors() {
-        return neighbors;
-    }
-
-    public String toString() {
-        return "(" + row + "," + col + ")";
-    }
-
-    public void setPartner(ConcreteCell o) {
-        this.partner = o;
-        o.partner = this;
-    }
-
-    public Cell getPartner() {
-        return partner;
-    }
-}
-
-class ConcreteGrid extends Grid {
-    public ConcreteGrid(int dim) {
-        super(dim);
-    }
-
-    public ConcreteGrid() {
-        super();
-    }
-
-    @Override
-    public Cell makeCell() {
-        return new ConcreteCell();
-    }
-
-    @Override
-    public void foreach(BiConsumer<Integer, Integer> consumer) {
-        super.foreach(consumer);
-    }
-}
 
 public class GridCellTests {
     @Test

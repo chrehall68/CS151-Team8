@@ -1,26 +1,38 @@
 package CALab;
 
-import javax.swing.*;
-
-import CALab.Cell;
-import mvc.*;
 import java.awt.*;
+import mvc.*;
 
-public class GridView  extends View {
+public class GridView extends View {
 
-    private CellView cellViews[][];
+    private CellView[][] cellViews;
 
     public GridView(Model model) {
         super(model);
-        /*
-        Cell cell = new CellView(((Grid)model).getCell(row, col)
-        cellViews[row][col] = cell
-        set cell.row and cell.col here
-        */
+        Grid grid = (Grid) model;
+        int dim = grid.getDim();
+        cellViews = new CellView[dim][dim];
+
+        setLayout(new GridLayout(dim, dim));
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                Cell cell = grid.getCell(row, col);
+                CellView cellView = new CellView(cell);
+                cellViews[row][col] = cellView;
+                cellView.setRow(row);
+                cellView.setCol(col);
+                cellView.update();
+                add(cellView);
+            }
+        }
     }
 
-    public void update(String msg, Object oldState, Object newState) {
-        // call update method of each CellView
+    @Override
+    public void update() {
+        for (int row = 0; row < cellViews.length; row++) {
+            for (int col = 0; col < cellViews[0].length; col++) {
+                cellViews[row][col].update();
+            }
+        }
     }
-
 }
