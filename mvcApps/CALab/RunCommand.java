@@ -12,7 +12,7 @@ public class RunCommand {
 
         @Override
         public void execute() throws Exception {
-            // TODO - run 1 update loop
+            ((Grid) model).updateLoop(1);
         }
     }
 
@@ -24,7 +24,7 @@ public class RunCommand {
 
         @Override
         public void execute() throws Exception {
-            // TODO - run 50 update loops
+                ((Grid) model).updateLoop(50);
         }
     }
 }

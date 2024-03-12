@@ -10,6 +10,7 @@ public class PopulateCommand extends Command {
 
     @Override
     public void execute() throws Exception {
-        // TODO - populate board
+        ((Grid) model).repopulate(true);
     }
 }
+// me

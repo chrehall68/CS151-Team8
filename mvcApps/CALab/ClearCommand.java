@@ -10,6 +10,6 @@ public class ClearCommand extends Command {
 
     @Override
     public void execute() throws Exception {
-        // TODO - do something here
+        ((Grid) model).repopulate(false);
     }
 }
