@@ -91,7 +91,7 @@ public class Utilities {
         os.close();
     }
 
-    public static Model open() throws Exception{
+    public static Model open() throws Exception {
         String fName = Utilities.getFileName(null, true);
         ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
         Model model = (Model) (is.readObject());

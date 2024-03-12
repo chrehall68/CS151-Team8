@@ -21,15 +21,17 @@ public class GridView extends View {
                 cellViews[row][col] = cellView;
                 cellView.setRow(row);
                 cellView.setCol(col);
+                cellView.update();
                 add(cellView);
             }
         }
     }
 
-    public void update(String msg, Object oldState, Object newState) {
+    @Override
+    public void update() {
         for (int row = 0; row < cellViews.length; row++) {
             for (int col = 0; col < cellViews[0].length; col++) {
-                cellViews[row][col].update(msg, oldState, newState);
+                cellViews[row][col].update();
             }
         }
     }

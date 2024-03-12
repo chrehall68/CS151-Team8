@@ -46,14 +46,12 @@ public abstract class Grid extends Model {
         });
 
         // 2. use getNeighbors to set the neighbors field of each cell
-        // TODO - ask what needs to be done for radius since the descriptions don't ask for anything
         foreach((row, col) -> getCell(row, col).neighbors = getNeighbors(getCell(row, col), 1));
     }
 
     // called when Populate button is clicked
     public void repopulate(boolean randomly) {
-        // TODO - ask what is needed for "randomly"
-        foreach((row, col)->getCell(row, col).reset(randomly));
+        foreach((row, col) -> getCell(row, col).reset(randomly));
         // notify subscribers
         notifySubscribers();
     }
@@ -93,7 +91,7 @@ public abstract class Grid extends Model {
 
     public void interact() {
         // call each cell's interact method and notify subscribers
-        foreach((row, col)->getCell(row, col).interact());
+        foreach((row, col) -> getCell(row, col).interact());
         notifySubscribers();
     }
 
@@ -116,11 +114,12 @@ public abstract class Grid extends Model {
 
     /**
      * Helper method that calls a given consumer on all (row, col)
+     *
      * @param consumer the consumer to call with (int row, int col)
      */
-    protected void foreach(BiConsumer<Integer, Integer> consumer){
-        for(int row = 0; row < dim; ++row){
-            for (int col = 0; col < dim; ++col){
+    protected void foreach(BiConsumer<Integer, Integer> consumer) {
+        for (int row = 0; row < dim; ++row) {
+            for (int col = 0; col < dim; ++col) {
                 consumer.accept(row, col);
             }
         }
