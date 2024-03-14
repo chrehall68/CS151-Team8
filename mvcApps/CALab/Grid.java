@@ -108,7 +108,6 @@ public abstract class Grid extends Model {
             update();
             observe();
             time++;
-            System.out.println("time = " + time);
         }
     }
 
