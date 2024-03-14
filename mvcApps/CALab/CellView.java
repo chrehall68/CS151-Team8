@@ -6,8 +6,6 @@ import mvc.*;
 
 public class CellView extends JButton implements ActionListener, Subscriber {
     private Cell myCell;
-    private int row;
-    private int col;
 
     public CellView(Cell c) {
         myCell = c;
@@ -19,22 +17,6 @@ public class CellView extends JButton implements ActionListener, Subscriber {
 
     public CellView() {
         this(null);
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
     }
 
     @Override

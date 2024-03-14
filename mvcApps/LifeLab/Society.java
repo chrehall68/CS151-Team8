@@ -1,15 +1,16 @@
 package LifeLab;
 
-import CALab.Cell;
 import CALab.Grid;
+import CALab.GridPanel;
+import mvc.AppFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class Society extends Grid {
     public static int percentAlive = 50;
-    public static Set<Integer> rebirth = new HashSet<Integer>();
-    public static Set<Integer> death = new HashSet<Integer>();
+    public static Set<Integer> rebirth = new HashSet<>();
+    public static Set<Integer> death = new HashSet<>();
 
     static {
         rebirth.add(3);
@@ -25,5 +26,11 @@ public class Society extends Grid {
 
     public Agent makeCell() {
         return new Agent();
+    }
+
+    public static void main(String[] args) {
+        AppFactory factory = new LifeFactory();
+        GridPanel panel = new GridPanel(factory);
+        panel.display();
     }
 }
