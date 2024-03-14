@@ -13,6 +13,11 @@ public class View extends JPanel implements Subscriber {
         setBorder(new LineBorder(Color.black));
     }
 
+    /**
+     * Sets `this.model` to the provided model, and recursively calls
+     * `setModel` on any children View objects
+     * @param model - the new model
+     */
     public void setModel(Model model) {
         // remove previous connection
         this.model.unsubscribe(this);
@@ -30,8 +35,11 @@ public class View extends JPanel implements Subscriber {
         repaint();
     }
 
+    /**
+     * Repaints the View object
+     */
     @Override
     public void update() {
-        this.repaint();
+        repaint();
     }
 }

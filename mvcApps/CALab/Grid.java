@@ -53,7 +53,7 @@ public abstract class Grid extends Model {
     public void repopulate(boolean randomly) {
         foreach((row, col) -> getCell(row, col).reset(randomly));
         // notify subscribers
-        notifySubscribers();
+        changed();
     }
 
 
@@ -86,19 +86,19 @@ public abstract class Grid extends Model {
     public void observe() {
         // call each cell's observe method and notify subscribers
         foreach((row, col) -> getCell(row, col).observe());
-        notifySubscribers();
+        changed();
     }
 
     public void interact() {
         // call each cell's interact method and notify subscribers
         foreach((row, col) -> getCell(row, col).interact());
-        notifySubscribers();
+        changed();
     }
 
     public void update() {
         // call each cell's update method and notify subscribers
         foreach((row, col) -> getCell(row, col).update());
-        notifySubscribers();
+        changed();
     }
 
     public void updateLoop(int cycles) {
@@ -108,7 +108,6 @@ public abstract class Grid extends Model {
             update();
             observe();
             time++;
-            System.out.println("time = " + time);
         }
     }
 

@@ -7,10 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AppPanel extends JPanel implements ActionListener, Subscriber {
-    protected ControlPanel controls;
-    protected View view;
-    protected Model model;
-    protected final AppFactory factory;
+    protected ControlPanel controls;  // control panel where edit buttons go
+    protected View view;  // view to display on the RHS of the screen
+    protected Model model;  // internal model that commands should update
+    protected final AppFactory factory;  // provides factory methods to create necessary objects
 
     public AppPanel(AppFactory factory) {
         this.factory = factory;
@@ -27,7 +27,26 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
         this.add(view);
     }
 
+    /**
+     * Sets the AppPanel's model to a new model. In the process, this method
+     * unsubscribes AppPanel from previous model and subscribes it to the new model.
+     * It also calls `view.setModel` to make sure the view sets the model as well.
+     * @param newModel - the model to set AppPanel's model to
+     */
+    protected void setModel(Model newModel){
+        model.unsubscribe(this);
+        model = newModel;
+        model.subscribe(this);
+        view.setModel(model);
+        update();
+    }
 
+    /**
+     * Create a menu bar that will be displayed in the frame. The menu bar will contain
+     * File options (New, Save, Save As, Open, Quit), Help options (About, Help), and
+     * Edit options (determined by `factory.getEditCommands()`)
+     * @return JMenuBar - the menu bar
+     */
     protected JMenuBar createMenuBar() {
         JMenuBar result = new JMenuBar();
         JMenu fileMenu = Utilities.makeMenu("File", new String[]{"New", "Save", "Save As", "Open", "Quit"}, this);
@@ -39,10 +58,15 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
         return result;
     }
 
+    /**
+     * Creates a frame and displays the app panel. This is what should be
+     * inside every `main` method in a customization. It is blocking.
+     */
     public void display() {
         SafeFrame frame = new SafeFrame();
         Container cp = frame.getContentPane();
         cp.add(this);
+
         frame.setJMenuBar(this.createMenuBar());
         frame.setTitle(factory.getTitle());
         frame.setSize(800, 800);
@@ -51,7 +75,7 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
 
     /**
      * Handles basic File and Help use cases;
-     * Edit use cases should be overridden in subclasses
+     * Edit use cases are handled by `factory.makeEditCommand`
      *
      * @param actionEvent the event that was fired
      */
@@ -71,15 +95,13 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
 
                 case "Open": {
                     Utilities.saveChanges(model);
-                    model = Utilities.open();
-                    view.setModel(model);
+                    setModel(Utilities.open());
                     break;
                 }
 
                 case "New": {
                     Utilities.saveChanges(model);
-                    model = factory.makeModel();
-                    view.setModel(model);
+                    setModel(factory.makeModel());
                     break;
                 }
 
@@ -117,6 +139,10 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
         }
     }
 
+    /**
+     * Calls controls.update, which can be overridden
+     * if the control panels need to be updated when the model changes
+     */
     @Override
     public void update() {
         controls.update();
@@ -130,6 +156,11 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
             setBorder(new LineBorder(Color.black));
         }
 
+        /**
+         * Adds a component to a new row in the control panel
+         * @param comp - the component to add
+         * @return Component - the component that was provided
+         */
         @Override
         public Component add(Component comp) {
             GridBagConstraints constraints = new GridBagConstraints();
@@ -144,9 +175,10 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
             return comp;
         }
 
-        public void update() {
-            // customizers can override this if they need to update the
-            // Control panel's display
-        }
+        /**
+         * Customizers can override this if they need to update the
+         * Control panel's display
+         */
+        public void update() {}
     }
 }
