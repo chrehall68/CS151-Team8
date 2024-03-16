@@ -152,8 +152,8 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
         private static int row = 0;
 
         public ControlPanel() {
-            setLayout(new GridBagLayout());
-            setBorder(new LineBorder(Color.black));
+           setLayout(new GridLayout(2, 2));
+           setBorder(new LineBorder(Color.black));
         }
 
         /**
