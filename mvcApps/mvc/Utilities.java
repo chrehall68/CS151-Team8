@@ -9,8 +9,7 @@ public class Utilities {
 
     // asks user a yes/no question
     public static boolean confirm(String query) {
-        int result = JOptionPane.showConfirmDialog(null,
-                query, "choose one", JOptionPane.YES_NO_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, query, "choose one", JOptionPane.YES_NO_OPTION);
         return result == 0;
     }
 
@@ -26,28 +25,22 @@ public class Utilities {
 
     // tells user a lot of info
     public static void inform(String[] items) {
-        String helpString = "";
-        for (int i = 0; i < items.length; i++) {
-            helpString = helpString + "\n" + items[i];
+        StringBuilder helpString = new StringBuilder();
+        for (String item : items) {
+            helpString.append("\n").append(item);
         }
-        inform(helpString);
+        inform(helpString.toString());
     }
 
     // tells user about an error
     public static void error(String gripe) {
-        JOptionPane.showMessageDialog(null,
-                gripe,
-                "OOPS!",
-                JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, gripe, "OOPS!", JOptionPane.ERROR_MESSAGE);
     }
 
     // tells user about an exception
     public static void error(Exception gripe) {
         gripe.printStackTrace();
-        JOptionPane.showMessageDialog(null,
-                gripe.getMessage(),
-                "OOPS!",
-                JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, gripe.getMessage(), "OOPS!", JOptionPane.ERROR_MESSAGE);
     }
 
     // asks user to save changes
@@ -102,8 +95,8 @@ public class Utilities {
     // simple menu maker
     public static JMenu makeMenu(String name, String[] items, ActionListener handler) {
         JMenu result = new JMenu(name);
-        for (int i = 0; i < items.length; i++) {
-            JMenuItem item = new JMenuItem(items[i]);
+        for (String s : items) {
+            JMenuItem item = new JMenuItem(s);
             item.addActionListener(handler);
             result.add(item);
         }
