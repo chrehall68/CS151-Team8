@@ -71,4 +71,9 @@ public abstract class Cell extends Model {
     // set status to a random or initial value
     public abstract void reset(boolean randomly);
 
+    @Override
+    public void changed() {
+        super.changed();
+        myGrid.setUnsavedChanges(true);
+    }
 }
