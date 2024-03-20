@@ -11,17 +11,19 @@ public class Agent extends Cell {
 
     public Agent() {
         status = 0; // Initialize status to dead
-        ambience = 8; // Initialize ambience to 8
+        ambience = 0; // Initialize ambience to 8
     }
 
     @Override
     public void observe() {
         ambience = 0; // Reset ambience
         for (Cell neighbor : neighbors) {
-            if (neighbor.getStatus() == 1) {
+            if (((Agent)neighbor).status == 1) {
                 ambience++; // Increment ambience if neighbor is alive
             }
         }
+        // don't need to put changed here because this is only called by
+        // grid, which already calls changed or this class, which takes care of it
     }
 
     @Override
@@ -31,12 +33,21 @@ public class Agent extends Cell {
         } else if (status == 1 && Society.death.contains(ambience)) {
             status = 0; // Kill living agent
         }
+        // don't need to put changed here because this is only called by
+        // grid, which already calls changed
     }
 
     @Override
     public void nextState() {
         status = (status + 1) % 2;
+        // notify view to update
         changed();
+
+        // notify neighbors to update their ambiences
+        for (Cell neighbor : neighbors){
+            neighbor.observe();
+            neighbor.changed();
+        }
     }
 
     @Override
@@ -47,7 +58,7 @@ public class Agent extends Cell {
 
     @Override
     public int getStatus() {
-        return status;
+        return ambience;
     }
 
     @Override

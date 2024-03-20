@@ -52,6 +52,8 @@ public abstract class Grid extends Model {
     // called when Populate button is clicked
     public void repopulate(boolean randomly) {
         foreach((row, col) -> getCell(row, col).reset(randomly));
+        // make sure that observe is the latest observe
+        observe();
         // notify subscribers
         changed();
     }
