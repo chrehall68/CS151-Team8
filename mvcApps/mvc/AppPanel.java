@@ -1,20 +1,19 @@
 package mvc;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AppPanel extends JPanel implements ActionListener, Subscriber {
-    protected ControlPanel controls;  // control panel where edit buttons go
+    protected JPanel controls;  // control panel where edit buttons go
     protected View view;  // view to display on the RHS of the screen
     protected Model model;  // internal model that commands should update
     protected final AppFactory factory;  // provides factory methods to create necessary objects
 
     public AppPanel(AppFactory factory) {
         this.factory = factory;
-        controls = new ControlPanel();
+        controls = new JPanel();
         model = factory.makeModel();
         view = factory.makeView(model);
         model.subscribe(this); // just in case the control panel needs to be able to update
@@ -140,45 +139,9 @@ public class AppPanel extends JPanel implements ActionListener, Subscriber {
     }
 
     /**
-     * Calls controls.update, which can be overridden
-     * if the control panels need to be updated when the model changes
+     * Can be overridden
+     * if the control panels need to be repainted/notified when the model changes
      */
     @Override
-    public void update() {
-        controls.update();
-    }
-
-    public static class ControlPanel extends JPanel {
-        private static int row = 0;
-
-        public ControlPanel() {
-           setLayout(new GridLayout(2, 2));
-           setBorder(new LineBorder(Color.black));
-        }
-
-        /**
-         * Adds a component to a new row in the control panel
-         * @param comp - the component to add
-         * @return Component - the component that was provided
-         */
-        @Override
-        public Component add(Component comp) {
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.fill = GridBagConstraints.HORIZONTAL;
-            constraints.weightx = 0.5;
-            constraints.weighty = 0.5;
-            constraints.gridy = row++;
-            JPanel containerPanel = new JPanel();
-
-            containerPanel.add(comp);
-            this.add(containerPanel, constraints);
-            return comp;
-        }
-
-        /**
-         * Customizers can override this if they need to update the
-         * Control panel's display
-         */
-        public void update() {}
-    }
+    public void update() {}
 }

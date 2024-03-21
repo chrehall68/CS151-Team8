@@ -50,9 +50,7 @@ public abstract class Cell extends Model {
     }
 
     // subclasses should override this 
-    public Color getColor() {
-        return Color.green;
-    }
+    public abstract Color getColor();
 
     // observer neighbors' states
     public abstract void observe();
