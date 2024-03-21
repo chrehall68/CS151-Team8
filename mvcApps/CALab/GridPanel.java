@@ -4,25 +4,34 @@ import mvc.AppFactory;
 import mvc.AppPanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GridPanel extends AppPanel {
     public GridPanel(AppFactory factory) {
         super(factory);
+        controls.setLayout(new GridLayout(2, 2));
 
         JButton run1 = new JButton("Run1");
-        run1.addActionListener(this);
-        controls.add(run1);
+        addControl(run1);
 
         JButton run50 = new JButton("Run50");
-        run50.addActionListener(this);
-        controls.add(run50);
+        addControl(run50);
 
         JButton populate = new JButton("Populate");
-        populate.addActionListener(this);
-        controls.add(populate);
+        addControl(populate);
 
         JButton clear = new JButton("Clear");
-        clear.addActionListener(this);
-        controls.add(clear);
+        addControl(clear);
+    }
+
+    /**
+     * Helper method to avoid rewriting control adding code
+     * @param control - the button to subscribe this to and to add to the control panel
+     */
+    private void addControl(JButton control){
+        control.addActionListener(this);
+        JPanel holder = new JPanel();
+        holder.add(control);
+        controls.add(holder);
     }
 }
